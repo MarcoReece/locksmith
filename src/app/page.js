@@ -1,8 +1,16 @@
+import { PhoneIcon, MapPinIcon } from "@heroicons/react/24/solid";
+
 export default function Home() {
+  const contactNumber = "(+44) 7412665432";
   return (
     <div className="bg-white h-screen w-screen overflow-hidden">
       <div className="relative h-full w-full">
         <div className="mx-auto max-w-7xl h-full w-full">
+          <img
+            className="block sm:hidden aspect-[3/2] object-cover lg:aspect-auto lg:w-full"
+            src="/locksmith-tools.jpg"
+            alt="Locksmith Tools"
+          />
           <div className="relative z-10 pt-14 lg:w-full lg:max-w-2xl h-full">
             <svg
               className="absolute inset-y-0 right-8 hidden h-full w-80 translate-x-1/2 transform fill-white lg:block"
@@ -13,29 +21,30 @@ export default function Home() {
               <polygon points="0,0 90,0 50,100 0,100" />
             </svg>
 
-            <div className="relative px-6 py-32 sm:py-40 lg:px-8 lg:py-56 lg:pr-0 h-full flex flex-col justify-center">
+            <div className="relative px-6 py-2 sm:py-40 lg:px-8 lg:py-56 lg:pr-0 sm:h-full flex flex-col justify-center">
               <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-xl">
-                <div className="hidden sm:mb-10 sm:flex">
-                  <div className="relative rounded-full px-3 py-1 text-sm leading-6 text-gray-500 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
-                    Leave us to the breaking in... the right way.
+                <div className="mb-10 flex">
+                  <div className="relative rounded px-3 py-1 text-sm leading-6 text-gray-500 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
+                    <MapPinIcon className="h-4 w-4 inline-block mr-1 mb-0.5" />
+                    Fulham
                   </div>
                 </div>
-                <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+                <h1 className="text-5xl font-bold tracking-tight text-gray-900 sm:text-6xl">
                   Your 24/7 Emergency Locksmith in West Brompton
                 </h1>
                 <p className="mt-6 text-lg leading-8 text-gray-600">
-                  Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt
-                  amet fugiat veniam occaecat fugiat aliqua.
+                  Need a 24/7 emergency locksmith in Fulham, London? Our experts
+                  offer fast, reliable, and affordable service for lockouts and
+                  security emergencies. Call us anytime for immediate
+                  assistance!
                 </p>
-                <div className="mt-10 flex items-center gap-x-6">
+                <div className="mt-10 items-center gap-x-6">
                   <a
                     href="#"
-                    className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    className="hidden sm:block rounded bg-gray-900 px-5 py-5 font-semibold text-md text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600"
                   >
-                    Contact Us
-                  </a>
-                  <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
-                    Give us a call
+                    <PhoneIcon className="h-6 w-6 inline-block mr-2" />
+                    Call {contactNumber}
                   </a>
                 </div>
               </div>
@@ -48,6 +57,12 @@ export default function Home() {
             src="/locksmith-tools.jpg"
             alt="Locksmith Tools"
           />
+        </div>
+        <div className="fixed bottom-0 left-0 right-0 flex justify-center items-center py-4 bg-white-900 sm:hidden">
+          <button className="w-full px-4 mx-4 py-4 text-white bg-gray-900 rounded hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-600">
+            <PhoneIcon className="h-5 w-5 inline-block mr-2" />
+            Call {contactNumber}
+          </button>
         </div>
       </div>
     </div>
