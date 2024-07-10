@@ -2,6 +2,29 @@ import { PhoneIcon, MapPinIcon } from "@heroicons/react/24/solid";
 
 export default function Home() {
   const contactNumber = "(+44) 7412665432";
+
+  const services = [
+    {
+      location: "Fulham",
+      services: [
+        "24 Hour Locksmith Service",
+        "Emergency Locksmith Service",
+        "Locksmith Services",
+        "Local Locksmith Service",
+        "Reliable Locksmith Service",
+        "Professional Locksmith Service"
+      ]
+    }
+  ];
+
+  const paragraphs = services.map(serviceGroup =>
+    serviceGroup.services.map(service => ({
+      heading: `${service} ${serviceGroup.location}`,
+      paragraph: `Our ${service.toLowerCase()} in ${serviceGroup.location} provides the best service in ${serviceGroup.location}. We offer fast response times in ${serviceGroup.location}. 
+      Call us to get ${service.toLowerCase()} in ${serviceGroup.location} right away.`
+    }))
+  );
+
   return (
     <div className="bg-white">
       <div className="bg-white h-screen w-screen overflow-hidden">
@@ -70,64 +93,24 @@ export default function Home() {
       <div className="mx-auto mt-32 max-w-7xl px-6 sm:mt-40 lg:px-8 pb-40">
         <div className="mx-auto max-w-2xl lg:mx-0">
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-            Our values
+            Our Services
           </h2>
           <p className="mt-6 text-lg leading-8 text-gray-600">
-            Lorem ipsum dolor sit amet consect adipisicing elit. Possimus magnam
-            voluptatum cupiditate veritatis in accusamus quisquam.
+            We offer a wide range of professional locksmith services in Fulham.
+            From emergency lockouts and 24-hour assistance to comprehensive lock
+            installation, repair, and key cutting, our experienced team is
+            dedicated to providing fast, reliable, and high-quality solutions.
+            Trust us to secure your home, business, or vehicle with our expert
+            locksmith services.
           </p>
         </div>
         <dl className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 text-base leading-7 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-          <div>
-            <dt className="font-semibold text-gray-900">Be world-class</dt>
-            <dd className="mt-1 text-gray-600">
-              Aut illo quae. Ut et harum ea animi natus. Culpa maiores et sed
-              sint et magnam exercitationem quia. Ullam voluptas nihil vitae
-              dicta molestiae et. Aliquid velit porro vero.
-            </dd>
-          </div>
-          <div>
-            <dt className="font-semibold text-gray-900">
-              Share everything you know
-            </dt>
-            <dd className="mt-1 text-gray-600">
-              Mollitia delectus a omnis. Quae velit aliquid. Qui nulla maxime
-              adipisci illo id molestiae. Cumque cum ut minus rerum architecto
-              magnam consequatur. Quia quaerat minima.
-            </dd>
-          </div>
-          <div>
-            <dt className="font-semibold text-gray-900">Always learning</dt>
-            <dd className="mt-1 text-gray-600">
-              Aut repellendus et officiis dolor possimus. Deserunt velit quasi
-              sunt fuga error labore quia ipsum. Commodi autem voluptatem nam.
-              Quos voluptatem totam.
-            </dd>
-          </div>
-          <div>
-            <dt className="font-semibold text-gray-900">Be supportive</dt>
-            <dd className="mt-1 text-gray-600">
-              Magnam provident veritatis odit. Vitae eligendi repellat non. Eum
-              fugit impedit veritatis ducimus. Non qui aspernatur laudantium
-              modi. Praesentium rerum error deserunt harum.
-            </dd>
-          </div>
-          <div>
-            <dt className="font-semibold text-gray-900">Take responsibility</dt>
-            <dd className="mt-1 text-gray-600">
-              Sit minus expedita quam in ullam molestiae dignissimos in harum.
-              Tenetur dolorem iure. Non nesciunt dolorem veniam necessitatibus
-              laboriosam voluptas perspiciatis error.
-            </dd>
-          </div>
-          <div>
-            <dt className="font-semibold text-gray-900">Enjoy downtime</dt>
-            <dd className="mt-1 text-gray-600">
-              Ipsa in earum deserunt aut. Quos minus aut animi et soluta. Ipsum
-              dicta ut quia eius. Possimus reprehenderit iste aspernatur ut est
-              velit consequatur distinctio.
-            </dd>
-          </div>
+          {paragraphs[0].map((block, index) => (
+            <div key={index}>
+              <dt className="font-semibold text-gray-900">{block.heading}</dt>
+              <dd className="mt-1 text-gray-600">{block.paragraph}</dd>
+            </div>
+          ))}
         </dl>
       </div>
     </div>
