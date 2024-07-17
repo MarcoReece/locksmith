@@ -16,7 +16,7 @@ export default function Home() {
           {ALL_SERVICES.map((service, index) => (
             <li key={index} className="mt-4">
               <Link
-                href={`/${LOCATION}/${service
+                href={`/${LOCATION.replace(/ /g, "-").toLowerCase()}/${service
                   .replace(/ /g, "-")
                   .toLowerCase()}`}
                 className="text-xl font-semibold text-blue-600 hover:underline"

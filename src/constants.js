@@ -102,4 +102,4 @@ export const ALL_SERVICES = [
   "University Lock System Service",
   "School Lock System Service",
 ];
-export const LOCATION = "fulham";
+export const LOCATION = "west brompton";

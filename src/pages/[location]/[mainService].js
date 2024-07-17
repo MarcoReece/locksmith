@@ -34,7 +34,7 @@ export default function KeywordPage({
                   <div className="mb-10 flex">
                     <div className="relative rounded px-3 py-1 text-sm leading-6 text-gray-500 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
                       <MapPinIcon className="h-4 w-4 inline-block mr-1 mb-0.5" />
-                      {capitalizeFirstLetter(mainService)}
+                      {capitalizeFirstLetter(location)}
                     </div>
                   </div>
                   <h1 className="text-5xl font-bold tracking-tight text-gray-900 sm:text-6xl">
@@ -89,7 +89,7 @@ export default function KeywordPage({
           </p>
         </div>
         <dl className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 text-base leading-7 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-          {paragraphs.map((block, index) => (
+          {(paragraphs ?? []).map((block, index) => (
             <div key={index}>
               <dt className="font-semibold text-gray-900">{block.heading}</dt>
               <dd className="mt-1 text-gray-600">{block.paragraph}</dd>
@@ -105,10 +105,10 @@ export async function getStaticPaths() {
   const locations = [LOCATION];
 
   const paths = locations.flatMap((location) =>
-    ALL_SERVICES.flatMap((service) => {
+    ALL_SERVICES.map((service) => {
       return {
         params: {
-          location: location,
+          location: location.replace(/ /g, "-").toLowerCase(),
           mainService: service.replace(/ /g, "-").toLowerCase(),
         },
       };
@@ -117,23 +117,24 @@ export async function getStaticPaths() {
 
   return {
     paths,
-    fallback: true,
+    fallback: false,
   };
 }
 
 export async function getStaticProps({ params }) {
   const { location, mainService } = params;
   const contactNumber = "(+44) 7412665432";
+  
 
   const services = [
     {
-      location: location,
+      location: location.replace(/-/g, " "),
       mainService: mainService,
       services: ALL_SERVICES,
     },
   ];
 
-  const paragraphs = services.map((serviceGroup) =>
+  const paragraphs = services.flatMap((serviceGroup) =>
     serviceGroup.services.map((service) => ({
       heading: `${service} in ${capitalizeFirstLetter(serviceGroup.location)}`,
       paragraph: `Our ${service.toLowerCase()} in ${
@@ -150,9 +151,9 @@ export async function getStaticProps({ params }) {
   return {
     props: {
       mainService: mainService.replace(/-/g, " "),
-      location: location,
+      location: location.replace(/-/g, " "),
       contactNumber,
-      paragraphs: paragraphs[0] || [], // Ensure paragraphs is always an array
+      paragraphs: paragraphs,
     },
   };
 }
