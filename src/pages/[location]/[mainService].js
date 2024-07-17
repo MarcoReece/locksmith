@@ -1,12 +1,14 @@
-"use client";
+import { ALL_SERVICES, LOCATION } from "@/constants";
+import { capitalizeFirstLetter } from "@/utils";
 
 import { PhoneIcon, MapPinIcon } from "@heroicons/react/24/solid";
-import { useParams } from 'next/navigation';
 
-export default function KeywordPage({ keyword = '', contactNumber = '', paragraphs = [] }) {
-  const params = useParams();
-  const currentKeyword = params?.keyword || keyword;
-
+export default function KeywordPage({
+  mainService,
+  location,
+  contactNumber,
+  paragraphs,
+}) {
   return (
     <div className="bg-white">
       <div className="bg-white h-screen w-screen overflow-hidden">
@@ -32,14 +34,14 @@ export default function KeywordPage({ keyword = '', contactNumber = '', paragrap
                   <div className="mb-10 flex">
                     <div className="relative rounded px-3 py-1 text-sm leading-6 text-gray-500 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
                       <MapPinIcon className="h-4 w-4 inline-block mr-1 mb-0.5" />
-                      {currentKeyword.charAt(0).toUpperCase() + currentKeyword.slice(1)}
+                      {capitalizeFirstLetter(mainService)}
                     </div>
                   </div>
                   <h1 className="text-5xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-                    Your 24/7 Emergency Locksmith in {currentKeyword.charAt(0).toUpperCase() + currentKeyword.slice(1)}
+                    Your {mainService} in {capitalizeFirstLetter(location)}
                   </h1>
                   <p className="mt-6 text-lg leading-8 text-gray-600">
-                    Need a 24/7 emergency locksmith in {currentKeyword}? Our
+                    Need a 24/7 emergency locksmith in {mainService}? Our
                     experts offer fast, reliable, and affordable service for
                     lockouts and security emergencies. Call us anytime for
                     immediate assistance!
@@ -78,12 +80,12 @@ export default function KeywordPage({ keyword = '', contactNumber = '', paragrap
             Our Services
           </h2>
           <p className="mt-6 text-lg leading-8 text-gray-600">
-            We offer a wide range of professional locksmith services in {currentKeyword}.
-            From emergency lockouts and 24-hour assistance to comprehensive lock
-            installation, repair, and key cutting, our experienced team is
-            dedicated to providing fast, reliable, and high-quality solutions.
-            Trust us to secure your home, business, or vehicle with our expert
-            locksmith services.
+            We offer a wide range of professional locksmith services in{" "}
+            {mainService}. From emergency lockouts and 24-hour assistance to
+            comprehensive lock installation, repair, and key cutting, our
+            experienced team is dedicated to providing fast, reliable, and
+            high-quality solutions. Trust us to secure your home, business, or
+            vehicle with our expert locksmith services.
           </p>
         </div>
         <dl className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 text-base leading-7 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3">
@@ -100,11 +102,18 @@ export default function KeywordPage({ keyword = '', contactNumber = '', paragrap
 }
 
 export async function getStaticPaths() {
-  const locations = ['fulham', 'west-brompton', 'chelsea']; // Add all your locations here
+  const locations = [LOCATION];
 
-  const paths = locations.map(location => ({
-    params: { keyword: location }
-  }));
+  const paths = locations.flatMap((location) =>
+    ALL_SERVICES.flatMap((service) => {
+      return {
+        params: {
+          location: location,
+          mainService: service.replace(/ /g, "-").toLowerCase(),
+        },
+      };
+    })
+  );
 
   return {
     paths,
@@ -113,36 +122,37 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const { keyword } = params;
+  const { location, mainService } = params;
   const contactNumber = "(+44) 7412665432";
 
   const services = [
     {
-      location: keyword,
-      services: [
-        "24 Hour Locksmith Service",
-        "Emergency Locksmith Service",
-        "Locksmith Services",
-        "Local Locksmith Service",
-        "Reliable Locksmith Service",
-        "Professional Locksmith Service"
-      ]
-    }
+      location: location,
+      mainService: mainService,
+      services: ALL_SERVICES,
+    },
   ];
 
-  const paragraphs = services.map(serviceGroup =>
-    serviceGroup.services.map(service => ({
-      heading: `${service} ${serviceGroup.location}`,
-      paragraph: `Our ${service.toLowerCase()} in ${serviceGroup.location} provides the best service in ${serviceGroup.location}. We offer fast response times in ${serviceGroup.location}. 
-      Call us to get ${service.toLowerCase()} in ${serviceGroup.location} right away.`
+  const paragraphs = services.map((serviceGroup) =>
+    serviceGroup.services.map((service) => ({
+      heading: `${service} in ${capitalizeFirstLetter(serviceGroup.location)}`,
+      paragraph: `Our ${service.toLowerCase()} in ${
+        serviceGroup.location
+      } provides the best service in ${
+        serviceGroup.location
+      }. We offer fast response times in ${serviceGroup.location}. 
+      Call us to get ${service.toLowerCase()} in ${
+        serviceGroup.location
+      } right away.`,
     }))
   );
 
   return {
     props: {
-      keyword,
+      mainService: mainService.replace(/-/g, " "),
+      location: location,
       contactNumber,
-      paragraphs: paragraphs[0] || [] // Ensure paragraphs is always an array
-    }
+      paragraphs: paragraphs[0] || [], // Ensure paragraphs is always an array
+    },
   };
 }
