@@ -1,6 +1,5 @@
 import { ALL_SERVICES, LOCATION } from "@/constants";
-import { capitalizeFirstLetter } from "@/utils";
-
+import { capitalizeFirstLetter, getRandomItems } from "@/utils";
 import { PhoneIcon, MapPinIcon } from "@heroicons/react/24/solid";
 
 export default function KeywordPage({
@@ -9,6 +8,8 @@ export default function KeywordPage({
   contactNumber,
   paragraphs,
 }) {
+  const randomParagraphs = getRandomItems(paragraphs, 9);
+
   return (
     <div className="bg-white">
       <div className="bg-white h-screen w-screen overflow-hidden">
@@ -48,7 +49,7 @@ export default function KeywordPage({
                   </p>
                   <div className="mt-10 items-center gap-x-6">
                     <a
-                      href="#"
+                      href={`tel:${contactNumber}`}
                       className="hidden sm:block rounded bg-gray-900 px-5 py-5 font-semibold text-md text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600"
                     >
                       <PhoneIcon className="h-6 w-6 inline-block mr-2" />
@@ -67,10 +68,13 @@ export default function KeywordPage({
             />
           </div>
           <div className="fixed bottom-0 left-0 right-0 flex justify-center items-center py-4 bg-white-900 sm:hidden">
-            <button className="w-full px-4 mx-4 py-4 text-white bg-gray-900 rounded hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-600">
+            <a
+              href={`tel:${contactNumber}`}
+              className="w-full px-4 mx-4 py-4 text-white bg-gray-900 rounded hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-600"
+            >
               <PhoneIcon className="h-5 w-5 inline-block mr-2" />
               Call {contactNumber}
-            </button>
+            </a>
           </div>
         </div>
       </div>
@@ -89,7 +93,7 @@ export default function KeywordPage({
           </p>
         </div>
         <dl className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 text-base leading-7 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-          {(paragraphs ?? []).map((block, index) => (
+          {(randomParagraphs ?? []).map((block, index) => (
             <div key={index}>
               <dt className="font-semibold text-gray-900">{block.heading}</dt>
               <dd className="mt-1 text-gray-600">{block.paragraph}</dd>
@@ -124,7 +128,6 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
   const { location, mainService } = params;
   const contactNumber = "(+44) 7412665432";
-  
 
   const services = [
     {
